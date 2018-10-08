@@ -114,7 +114,7 @@ def train():
 
         # Build model
         lr_decay_steps = map(float,FLAGS.lr_step_epoch.split(','))
-        lr_decay_steps = map(int,[s*FLAGS.num_train_instance/FLAGS.batch_size/FLAGS.num_gpus for s in lr_decay_steps])
+        lr_decay_steps = list(map(int,[s*FLAGS.num_train_instance/FLAGS.batch_size/FLAGS.num_gpus for s in lr_decay_steps]))
         hp = resnet.HParams(batch_size=FLAGS.batch_size,
                             num_gpus=FLAGS.num_gpus,
                             num_classes=FLAGS.num_classes,
@@ -170,7 +170,7 @@ def train():
 
         # Training!
         val_best_acc = 0.0
-        for step in xrange(init_step, FLAGS.max_steps):
+        for step in range(init_step, FLAGS.max_steps):
             # val
             if step % FLAGS.val_interval == 0:
                 val_loss, val_acc = 0.0, 0.0
